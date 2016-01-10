@@ -1,0 +1,12 @@
+/* CSS declarations go here */
+
+body {
+	background: black;
+	color:black;
+}
+
+.navbar {
+	margin: 0 !important;
+	background: black;
+}
+

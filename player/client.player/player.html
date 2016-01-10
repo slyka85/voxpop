@@ -1,0 +1,31 @@
+<template name="player">
+    {{#if play}}
+        {{> deck}}
+    {{else}}
+        {{> tracks}}
+    {{/if}}
+</template>
+
+<template name="tracks">
+    <button id="play">Play</button>
+    {{#each tracks}}
+    <div class="col-md-4">
+        <h3 style="color:red">Votes: {{vote}}</h3>
+        <div class="col-md-6">
+        <input type="button" value="Vote" class="vote btn btn-primary" id="{{_id}}">
+        </div>
+        <div class="col-md-6">
+        <input type="button" value="Delete" class="delete btn btn-danger" id="{{_id}}">
+        </div>
+        <br>
+        {{{scHtml}}}
+    </div>
+    {{/each}}
+</template>
+
+<template name="deck">
+    {{#with track}}
+    <h1 style="background:red">NOW PLAYING</h1>
+        {{{html}}}
+    {{/with}}
+</template>
