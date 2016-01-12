@@ -1,5 +1,6 @@
 if (Meteor.isClient) {
 
+	Meteor.subscribe("tracks");
 	// Template.soundcloud.onRendered(function(){
 	// 	SC.initialize({
 	// 		client_id: '74636a7842d691e119d298aaff377fc4'
@@ -24,12 +25,9 @@ if (Meteor.isClient) {
 
 	Template.soundcloud.events({
 		'click .nominate': function(event, template){
-			// console.log('nomiated!!')
-			console.log($(event.target).closest('div').find('.scHtml').html())
+			console.log('nomiated!!')
 			var scHtml = $(event.target).closest('div').find('.scHtml').html()
-			// var duration = $(event.target).closest('div').find('.scHtml').attr('id')
-			// var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
-			console.log(duration)
+			var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
 		  Tracks.insert({roomId:Session.get('roomname'),
 		  	scHtml: scHtml,
 		  	vote: 0,
@@ -70,5 +68,10 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+	Tracks.allow({
+    insert: function (userId, doc) {
+      return true;
+    }
+  });
 
 }
