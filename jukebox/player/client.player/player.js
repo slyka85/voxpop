@@ -7,18 +7,6 @@ if (Meteor.isClient){
 			Session.setDefault('pushPlay', false);
 	})
 
-  Template.deck.onCreated(function(){
-    $(document).ready(function(){
-      var iframe = document.querySelector('#player');
-      var sc = SC.Widget(iframe);
-
-      sc.bind(SC.Widget.Events.FINISH, function() {
-          console.log('finished!')
-      });
-      
-    })
-  })
-
 	Template.tracks.helpers({
     tracks: function() {
     	if (!Template.instance().subscriptionsReady()) return;
