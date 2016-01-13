@@ -1,13 +1,27 @@
 Tracks = new Mongo.Collection("tracks");
 
-
-
 if (Meteor.isClient){
 		Meteor.subscribe("tracks");
 
 	Template.tracks.onCreated(function(){
 			Session.setDefault('pushPlay', false);
 	})
+
+  Template.deck.onRendered(function(){
+      var iframeElement = document.getElementById('iframe');
+      var widget = SC.Widget(iframeElement);
+      widget.bind(SC.Widget.Events.READY, function () {
+        console.log('Ready');
+        widget.bind(SC.Widget.Events.PLAY, function () {
+            widget.getCurrentSound(function (sound) {
+                console.log(sound.title);
+            });
+        });
+           widget.bind(SC.Widget.Events.FINISH, function () {
+               console.log('Finished');
+        });
+    });
+  })
 
 	Template.tracks.helpers({
     tracks: function() {
@@ -28,8 +42,7 @@ if (Meteor.isClient){
       var track = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml.replace('auto_play=false','auto_play=true')
       var trackObject = new Object();
       trackObject.html = track
-      // console.log(Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml)
-      // console.log(track)
+
       return trackObject
     }
   })
@@ -52,17 +65,15 @@ if (Meteor.isClient){
       Tracks.remove(trackId);
     },
  	  'click #play': function(e, t) {
+      var streamUrl = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
 	  	Session.set('pushPlay',true)
-      setTimeout
+      // console.log(streamUrl)
 	  }
   })
 }
 
 if (Meteor.isServer) {
 	  Tracks.allow({
-    insert: function (userId, doc) {
-      return true;
-    },
     update: function (userId, doc, fieldNames, modifier) {
       return true;
     },
