@@ -1,13 +1,23 @@
 Tracks = new Mongo.Collection("tracks");
 
-
-
 if (Meteor.isClient){
 		Meteor.subscribe("tracks");
 
 	Template.tracks.onCreated(function(){
 			Session.setDefault('pushPlay', false);
 	})
+
+  Template.deck.onCreated(function(){
+    $(document).ready(function(){
+      var iframe = document.querySelector('#player');
+      var sc = SC.Widget(iframe);
+
+      sc.bind(SC.Widget.Events.FINISH, function() {
+          console.log('finished!')
+      });
+      
+    })
+  })
 
 	Template.tracks.helpers({
     tracks: function() {
@@ -53,16 +63,12 @@ if (Meteor.isClient){
     },
  	  'click #play': function(e, t) {
 	  	Session.set('pushPlay',true)
-      setTimeout
 	  }
   })
 }
 
 if (Meteor.isServer) {
 	  Tracks.allow({
-    insert: function (userId, doc) {
-      return true;
-    },
     update: function (userId, doc, fieldNames, modifier) {
       return true;
     },
