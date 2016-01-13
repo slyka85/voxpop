@@ -1,5 +1,6 @@
 if (Meteor.isClient) {
 
+	Meteor.subscribe("tracks");
 	// Template.soundcloud.onRendered(function(){
 	// 	SC.initialize({
 	// 		client_id: '74636a7842d691e119d298aaff377fc4'
@@ -24,15 +25,16 @@ if (Meteor.isClient) {
 
 	Template.soundcloud.events({
 		'click .nominate': function(event, template){
-			// console.log('nomiated!!')
-			console.log($(event.target).closest('div').find('.scHtml').html())
+			console.log('nomiated!!')
 			var scHtml = $(event.target).closest('div').find('.scHtml').html()
-			// var duration = $(event.target).closest('div').find('.scHtml').attr('id')
+			var stream_url = $(event.target).closest('div').find('.scHtml')[0].id
+			console.log(stream_url)
 			// var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
-		  Tracks.insert({roomId:roomId,
+		  Tracks.insert({roomId:Session.get('roomname'),
 		  	scHtml: scHtml,
 		  	vote: 0,
-		  	user: Meteor.user().username
+		  	user: Meteor.user().username,
+		  	stream_url: stream_url.replace('https://api.soundcloud.com','')
       });
 		},
 		'keyup #track': function(e, t) {
@@ -57,9 +59,9 @@ if (Meteor.isClient) {
           for(var i=0; i<8; i++){
              // SOUNDCLOUD EMBED PLAYER
             var track_url = tracks[i].permalink_url;
-            var duration = tracks[i].duration;
+            var stream_url = tracks[i].stream_url;
             SC.oEmbed(track_url, { auto_play: false }).then(function(oEmbed) {
-            $('.list').append('<div class="col-md-6 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button">Nominate</button><div class="scHtml">'+oEmbed.html+'</div></div>')
+            $('.list').append('<div class="col-md-6 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button">Nominate</button><div class="scHtml" id='+stream_url+'>'+oEmbed.html+'</div></div>')
             });
           }
         });
@@ -69,5 +71,10 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+	Tracks.allow({
+    insert: function (userId, doc) {
+      return true;
+    }
+  });
 
 }
