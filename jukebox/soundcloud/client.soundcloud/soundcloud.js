@@ -1,27 +1,6 @@
 if (Meteor.isClient) {
 
 	Meteor.subscribe("tracks");
-	// Template.soundcloud.onRendered(function(){
-	// 	SC.initialize({
-	// 		client_id: '74636a7842d691e119d298aaff377fc4'
-	// 	});
-	// 	//SEARCH SOUNDCLOUD TRACKS
-	// 	SC.get('/tracks', {
-	// 		genre:Session.get('roomname').toLowerCase(),
-	// 	  duration:{to:60000*20}
-	// 	}).then(function(tracks) {
-	// 		// console.log(tracks)
-	// 	  for(var i=0; i<12; i++){
-	// 			// SOUNDCLOUD EMBED PLAYER
-	// 			var track_url = tracks[i].permalink_url;
-	// 			SC.oEmbed(track_url, { auto_play: false }).then(function(oEmbed) {
-	// 			$('.player').append(
-	// 				'<div class="col-md-6 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button" id='+tracks[i].id+'>Nominate</button><div class="scHtml">'+oEmbed.html+'</div></div>')
-	// 			// console.log(oEmbed.html)
-	// 			});
-	// 	  }
-	// 	});
-	// })
 
 	Template.soundcloud.events({
 		'click .nominate': function(event, template){
@@ -34,7 +13,7 @@ if (Meteor.isClient) {
 		  	scHtml: scHtml,
 		  	vote: 0,
 		  	user: Meteor.user().username,
-		  	stream_url: stream_url.replace('https://api.soundcloud.com','')
+		  	stream_url: stream_url.replace('https://api.soundcloud.com','').replace('/stream','')
       });
 		},
 		'keyup #track': function(e, t) {

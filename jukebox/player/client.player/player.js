@@ -42,7 +42,7 @@ if (Meteor.isClient){
       var track = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml.replace('auto_play=false','auto_play=true')
       var trackObject = new Object();
       trackObject.html = track
-
+      trackObject.stream = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
       return trackObject
     }
   })
