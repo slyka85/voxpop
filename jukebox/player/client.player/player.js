@@ -7,6 +7,22 @@ if (Meteor.isClient){
 			Session.setDefault('pushPlay', false);
 	})
 
+  Template.deck.onRendered(function(){
+      var iframeElement = document.getElementById('iframe');
+      var widget = SC.Widget(iframeElement);
+      widget.bind(SC.Widget.Events.READY, function () {
+        console.log('Ready');
+        widget.bind(SC.Widget.Events.PLAY, function () {
+            widget.getCurrentSound(function (sound) {
+                console.log(sound.title);
+            });
+        });
+           widget.bind(SC.Widget.Events.FINISH, function () {
+               console.log('Finished');
+        });
+    });
+  })
+
 	Template.tracks.helpers({
     tracks: function() {
     	if (!Template.instance().subscriptionsReady()) return;
@@ -50,15 +66,8 @@ if (Meteor.isClient){
     },
  	  'click #play': function(e, t) {
       var streamUrl = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
-	  	// Session.set('pushPlay',true)
-      console.log(streamUrl)
-      SC.initialize({
-        client_id: '74636a7842d691e119d298aaff377fc4'
-      });
-      SC.stream(streamUrl).then(function(player){
-        player.play();
-        console.log(player)
-      });
+	  	Session.set('pushPlay',true)
+      // console.log(streamUrl)
 	  }
   })
 }
