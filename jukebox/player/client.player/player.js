@@ -26,8 +26,7 @@ if (Meteor.isClient){
       var track = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml.replace('auto_play=false','auto_play=true')
       var trackObject = new Object();
       trackObject.html = track
-      // console.log(Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml)
-      // console.log(track)
+
       return trackObject
     }
   })
@@ -50,7 +49,16 @@ if (Meteor.isClient){
       Tracks.remove(trackId);
     },
  	  'click #play': function(e, t) {
-	  	Session.set('pushPlay',true)
+      var streamUrl = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
+	  	// Session.set('pushPlay',true)
+      console.log(streamUrl)
+      SC.initialize({
+        client_id: '74636a7842d691e119d298aaff377fc4'
+      });
+      SC.stream(streamUrl).then(function(player){
+        player.play();
+        console.log(player)
+      });
 	  }
   })
 }
