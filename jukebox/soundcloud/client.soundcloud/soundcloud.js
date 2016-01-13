@@ -29,8 +29,7 @@ if (Meteor.isClient) {
 			var scHtml = $(event.target).closest('div').find('.scHtml').html()
 			// var duration = $(event.target).closest('div').find('.scHtml').attr('id')
 			// var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
-			console.log(duration)
-		  Tracks.insert({roomId:Session.get('roomname'),
+		  Tracks.insert({roomId:roomId,
 		  	scHtml: scHtml,
 		  	vote: 0,
 		  	user: Meteor.user().username
