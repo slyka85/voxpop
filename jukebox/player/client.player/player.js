@@ -12,22 +12,42 @@ if (Meteor.isClient){
   })
 
   Template.deck.onRendered(function(){
-        var self = this;
-        var iframeElement = document.querySelector('iframe');
-        var widget = SC.Widget(iframeElement);
-        widget.bind(SC.Widget.Events.READY, function () {
-          console.log('Ready!');
-          widget.bind(SC.Widget.Events.PLAY, function () {
-            console.log('Playing!')
-              widget.getCurrentSound(function (sound) {
-                console.log(sound)
-              });
-          });
-          widget.bind(SC.Widget.Events.FINISH, function () {
-            console.log("Finished!")
-            console.log(self.trackOnList.set(self.trackOnList.get() + 1))
-          })
+    var self = this;
+    var iframeElement = document.querySelector('iframe');
+    var widget = SC.Widget(iframeElement);
+      widget.bind(SC.Widget.Events.READY, function () {
+        widget.play()
+        console.log('Ready!');
+        widget.bind(SC.Widget.Events.PLAY, function () {
+          console.log('Playing!')
+            // widget.getCurrentSound(function (sound) {
+            //   console.log(sound)
+            // });
+            widget.bind(SC.Widget.Events.FINISH, function () {
+              console.log("Finished!")
+              self.trackOnList.set(self.trackOnList.get() + 1)
+              console.log(self.trackOnList.get())
+            })
         });
+      });
+
+      Tracker.autorun(function() {
+          if(self.trackOnList.get()){
+          console.log('autorun')
+            widget.bind(SC.Widget.Events.READY, function () {
+              console.log('second ready')
+              setTimeout(function(){
+              widget.play()                
+                widget.bind(SC.Widget.Events.FINISH, function () {
+                  console.log("Finished!")
+                  // self.trackOnList.set(self.trackOnList.get() + 1)
+                  // console.log(self.trackOnList.get())
+                })
+              },2000)
+            })
+          }
+      })
+
   })
 
 	Template.tracks.helpers({
