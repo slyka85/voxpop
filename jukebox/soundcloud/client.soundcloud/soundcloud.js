@@ -5,12 +5,12 @@ if (Meteor.isClient) {
 	Template.soundcloud.events({
 		'click .nominate': function(event, template){
 			console.log('nomiated!!')
-			var scHtml = $(event.target).closest('div').find('.scHtml').html()
+			var scHtml = $(event.target).closest('iframe').html()
 			var stream_url = $(event.target).closest('div').find('.scHtml')[0].id
-			console.log(stream_url)
+			console.log($(event.target).closest('iframe'))
 			// var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
 		  Tracks.insert({roomId:Session.get('roomname'),
-		  	scHtml: scHtml,
+		  	html: scHtml,
 		  	vote: 0,
 		  	user: Meteor.user().username,
 		  	stream_url: stream_url.replace('https://api.soundcloud.com','').replace('/stream','')
@@ -31,17 +31,17 @@ if (Meteor.isClient) {
           genres: Session.get('roomname').toLowerCase(), 
           duration:{to:60000*8}
         }).then(function(tracks) {
-          console.log(tracks);
+          // console.log(tracks);
           // console.log(tracks.permalink_url);
           // console.log(tracks.artwork_url);
-          var trackTimes = []
           for(var i=0; i<8; i++){
              // SOUNDCLOUD EMBED PLAYER
             var track_url = tracks[i].permalink_url;
-            var stream_url = tracks[i].stream_url;
-            SC.oEmbed(track_url, { auto_play: false }).then(function(oEmbed) {
-            $('.list').append('<div class="col-md-6 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button">Nominate</button><div class="scHtml" id='+stream_url+'>'+oEmbed.html+'</div></div>')
-            });
+            var stream_url = tracks[i].stream_url.replace('https://api.soundcloud.com','').replace('/stream','');
+            console.log(stream_url)
+
+            $('.list').append('<div class="col-md-4 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button">Nominate</button><div class="scHtml" id="'+stream_url+'""><iframe width="100%" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com'+stream_url+'""></iframe></div></div>')
+
           }
         });
       }

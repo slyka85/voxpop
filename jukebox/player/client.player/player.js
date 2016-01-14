@@ -7,46 +7,52 @@ if (Meteor.isClient){
 			Session.setDefault('pushPlay', false);
 	})
 
+  Template.deck.onCreated(function(){
+      this.trackOnList = new ReactiveVar(0);
+  })
+
   Template.deck.onRendered(function(){
-      var iframeElement = document.getElementById('iframe');
-      var widget = SC.Widget(iframeElement);
-      widget.bind(SC.Widget.Events.READY, function () {
-        console.log('Ready');
-        widget.bind(SC.Widget.Events.PLAY, function () {
-            widget.getCurrentSound(function (sound) {
-                console.log(sound.title);
-            });
+        var self = this;
+        var iframeElement = document.querySelector('iframe');
+        var widget = SC.Widget(iframeElement);
+        widget.bind(SC.Widget.Events.READY, function () {
+          console.log('Ready!');
+          widget.bind(SC.Widget.Events.PLAY, function () {
+            console.log('Playing!')
+              widget.getCurrentSound(function (sound) {
+                console.log(sound)
+              });
+          });
+          widget.bind(SC.Widget.Events.FINISH, function () {
+            console.log("Finished!")
+            console.log(self.trackOnList.set(self.trackOnList.get() + 1))
+          })
         });
-           widget.bind(SC.Widget.Events.FINISH, function () {
-               console.log('Finished');
-        });
-    });
   })
 
 	Template.tracks.helpers({
     tracks: function() {
     	if (!Template.instance().subscriptionsReady()) return;
-      return Tracks.find({roomId:"Techno"}, {sort: {vote: -1}})
+      return Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()
     }
   })
 
   Template.player.helpers({
     play: function() {
+      if (!Template.instance().subscriptionsReady()) return;
+
     	return Session.get('pushPlay');
     }
   })
 
   Template.deck.helpers({
-    track: function() {
+    onDeck: function() {
       if (!Template.instance().subscriptionsReady()) return;
-      var track = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].scHtml.replace('auto_play=false','auto_play=true')
       var trackObject = new Object();
-      trackObject.html = track
-      trackObject.stream = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
+      trackObject.stream = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[Template.instance().trackOnList.get()].stream_url
       return trackObject
     }
   })
-
 
   Template.tracks.events({    
     'click .vote': function(e, t) {
@@ -65,7 +71,7 @@ if (Meteor.isClient){
       Tracks.remove(trackId);
     },
  	  'click #play': function(e, t) {
-      var streamUrl = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
+      // var streamUrl = Tracks.find({roomId:"Techno"}, {sort: {vote: -1}}).fetch()[0].stream_url
 	  	Session.set('pushPlay',true)
       // console.log(streamUrl)
 	  }
