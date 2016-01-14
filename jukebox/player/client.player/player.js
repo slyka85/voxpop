@@ -25,7 +25,8 @@ if (Meteor.isClient){
           });
           widget.bind(SC.Widget.Events.FINISH, function () {
             console.log("Finished!")
-            console.log(self.trackOnList.set(self.trackOnList.get() + 1))
+            self.trackOnList.set(self.trackOnList.get() + 1)
+            console.log(self.trackOnList.get())
           })
         });
   })
