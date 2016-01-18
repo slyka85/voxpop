@@ -34,7 +34,7 @@ if (Meteor.isClient) {
           // console.log(tracks);
           // console.log(tracks.permalink_url);
           // console.log(tracks.artwork_url);
-          for(var i=0; i<8; i++){
+          for(var i=0; i<9; i++){
              // SOUNDCLOUD EMBED PLAYER
             var track_url = tracks[i].permalink_url;
             var stream_url = tracks[i].stream_url.replace('https://api.soundcloud.com','').replace('/stream','');

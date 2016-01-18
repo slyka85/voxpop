@@ -26,21 +26,20 @@ if (Meteor.isClient){
             widget.bind(SC.Widget.Events.FINISH, function () {
               console.log("Finished!")
               self.trackOnList.set(self.trackOnList.get() + 1)
-              console.log(self.trackOnList.get())
+              // console.log(self.trackOnList.get())
             })
         });
       });
 
       Tracker.autorun(function() {
           if(self.trackOnList.get()){
-          console.log('autorun')
+          // console.log('autorun')
             widget.bind(SC.Widget.Events.READY, function () {
-              console.log('second ready')
+              // console.log('second ready')
               setTimeout(function(){
               widget.play()                
                 widget.bind(SC.Widget.Events.FINISH, function () {
-                  console.log("Finished!")
-                  // self.trackOnList.set(self.trackOnList.get() + 1)
+                  // console.log("Finished!")
                   // console.log(self.trackOnList.get())
                 })
               },2000)
