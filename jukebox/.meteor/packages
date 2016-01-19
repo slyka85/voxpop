@@ -28,3 +28,5 @@ reactive-var
 less
 accounts-google
 service-configuration
+accounts-twitter
+accounts-facebook

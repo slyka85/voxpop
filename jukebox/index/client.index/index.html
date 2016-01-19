@@ -39,7 +39,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 col-xs-12">
+    {{#if currentUser}}
     	{{> yield}}
+    {{else}}
+      <h1>Please Sign In!</h1>
+    {{/if}}
 		</div>
 	</div>
 </div>
