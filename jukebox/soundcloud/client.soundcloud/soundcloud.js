@@ -40,6 +40,7 @@ if (Meteor.isClient) {
             var stream_url = tracks[i].stream_url.replace('https://api.soundcloud.com','').replace('/stream','');
             console.log(stream_url)
 
+            // NOT METEOR WAY MUST USE HELPERS
             $('.list').append('<div class="col-md-4 track" style="margin:0px"><button class="btn btn-success btn-block nominate" type="button">Nominate</button><div class="scHtml" id="'+stream_url+'""><iframe width="100%" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com'+stream_url+'""></iframe></div></div>')
 
           }

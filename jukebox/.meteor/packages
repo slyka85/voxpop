@@ -26,3 +26,5 @@ iron:router
 msavin:jetsetter
 reactive-var
 less
+accounts-google
+service-configuration
