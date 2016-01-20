@@ -42,7 +42,7 @@ if (Meteor.isClient){
                   // console.log("Finished!")
                   // console.log(self.trackOnList.get())
                 })
-              },2000)
+              },1000)
             })
           }
       })

@@ -28,7 +28,7 @@ if (Meteor.isClient) {
         //SEARCH SOUNDCLOUD TRACKS
         SC.get('/tracks', {
           q: trackSearch, 
-          genres: Session.get('roomname').toLowerCase(), 
+          // genres: Session.get('roomname').toLowerCase(), 
           duration:{to:60000*8}
         }).then(function(tracks) {
           // console.log(tracks);
