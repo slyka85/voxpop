@@ -5,12 +5,12 @@ if (Meteor.isClient) {
 	Template.soundcloud.events({
 		'click .nominate': function(event, template){
 			console.log('nomiated!!')
-			var scHtml = $(event.target).closest('iframe').html()
+			// var scHtml = $(event.target).closest('iframe').html()
 			var stream_url = $(event.target).closest('div').find('.scHtml')[0].id
-			console.log($(event.target).closest('iframe'))
+			// console.log($(event.target).closest('iframe'))
 			// var roomId = Rooms.find({roomname:"Techno"}).fetch()[0]._id;
 		  Tracks.insert({roomId:Session.get('roomname'),
-		  	html: scHtml,
+		  	// html: scHtml,
 		  	vote: 0,
 		  	user: Meteor.user().username,
 		  	stream_url: stream_url.replace('https://api.soundcloud.com','').replace('/stream','')
