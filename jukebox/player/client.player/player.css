@@ -1,0 +1,33 @@
+.searchedTracks {
+	border-color: black;
+	border-style: solid;
+	border-radius: 2px;
+	border-width: 1px;
+	padding: 5px;
+	margin-top: 5px;
+	background: white;
+}
+
+.vote {
+	background: #2ecc71;
+}
+
+.delete {
+	background: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .btn-responsive {
+    padding:5px 10px;
+    font-size:80%;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .btn-responsive {
+    padding:4px 9px;
+    font-size:90%;
+    line-height: 1.5;
+  }
+}

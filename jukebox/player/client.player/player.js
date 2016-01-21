@@ -5,7 +5,7 @@ if (Meteor.isClient){
 
 	Template.tracks.onCreated(function(){
 			Session.setDefault('pushPlay', false);
-	})
+  })
 
   Template.deck.onCreated(function(){
       this.trackOnList = new ReactiveVar(0);
@@ -20,9 +20,9 @@ if (Meteor.isClient){
         console.log('Ready!');
         widget.bind(SC.Widget.Events.PLAY, function () {
           console.log('Playing!')
-            // widget.getCurrentSound(function (sound) {
-            //   console.log(sound)
-            // });
+            widget.getCurrentSound(function (sound) {
+              console.log(sound)
+            }); 
             widget.bind(SC.Widget.Events.FINISH, function () {
               console.log("Finished!")
               self.trackOnList.set(self.trackOnList.get() + 1)
@@ -75,7 +75,8 @@ if (Meteor.isClient){
 
   Template.tracks.events({    
     'click .vote': function(e, t) {
-      // console.log($(event.target).attr('id'))
+      $(event.target).addClass('voted')
+      // console.log($(event.target))
       var trackId = $(event.target).attr('id')
       // console.log(Tracks.find(trackId).fetch()[0].vote)
       var trackVote = Tracks.find(trackId).fetch()[0].vote
